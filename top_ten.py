@@ -240,7 +240,6 @@ def createWindowMusicList():
 
 #Create the entire Top 10 Game List into one function that can be called when button is pressed
 
-# Been a while since this script has been created, need to find new list for video game.
 def createWindowGameList():
     #Set up screen
     theGameWindow = Toplevel()
