@@ -85,24 +85,24 @@ global string8
 global string9
 global string10
 
-#Create the entire Top 10 Movie List into one function that can be called when button is pressed
+# Create the entire Top 10 Movie List into one function that can be called when button is pressed
 def createWindowMovieList():
-    #Set up the Screen
+    # Set up the Screen
     theMovieWindow = Toplevel()
     theMovieWindow.resizable(0,0)
     theMovieWindow.title("Top Ten Movies")
     theMovieWindow.geometry("600x600")
     theMovieWindow.configure(background="white")
     #Main Title
-    theMovieListTitle = Label(theMovieWindow, text = "Top 10 Movies:", font = ("Broadway", 22), bg="white")
+    theMovieListTitle = Label(theMovieWindow, text = "Top 10 Best Selling Movies:", font = ("Broadway", 22), bg="white")
     theMovieListTitle.pack()
     
     #Open the website, read and update HTML, and close connection
-    webPage = urlopen("http://www.imdb.com/chart/top")
+    webPage = urlopen("http://www.boxofficemojo.com/alltime/world/")
     htmlCode = webPage.read()
     webPage.close()
     sqlButton.configure(state=NORMAL)
-    theList = findall('title=".*>(.+)</a>', htmlCode)
+    theList = findall('.htm"><b>(.+)</b>', htmlCode)
     #List the Top 10 movies
     global string1
     string1 = theList[1]
@@ -156,7 +156,7 @@ def createWindowMovieList():
     imageLabel.pack()
 
     #Label to give credit to the source material
-    retrievalLabel = Label(theMovieWindow, text = "List retrieved from http://www.imdb.com/chart/top", bg="white")
+    retrievalLabel = Label(theMovieWindow, text = "List retrieved from http://www.boxofficemojo.com/alltime/world/", bg="white")
     retrievalLabel.pack()
 
     theMovieWindow.mainloop()
@@ -239,6 +239,8 @@ def createWindowMusicList():
     theMusicWindow.mainloop()
 
 #Create the entire Top 10 Game List into one function that can be called when button is pressed
+
+# Been a while since this script has been created, need to find new list for video game.
 def createWindowGameList():
     #Set up screen
     theGameWindow = Toplevel()
@@ -261,11 +263,11 @@ def createWindowGameList():
     theGameListTitle.pack()
 
     #Open the website, read the HTML (Update if need be), and close connection
-    webPage = urlopen("http://www.statista.com/statistics/275226/best-selling-pc-games-of-all-time-worldwide/")
+    webPage = urlopen("http://store.steampowered.com/search/?filter=globaltopseller")
     htmlCode = webPage.read()
     webPage.close()
     sqlButton.configure(state=NORMAL)
-    theList = findall('<td>(.*)</td>', htmlCode)
+    theList = findall('<span class="title">(.*)</span>', htmlCode)
     #List the Top 10 Games
     global string1
     string1 = theList[0].replace('&#039;', "'")
@@ -324,7 +326,7 @@ def saveToSQL():
     top_ten_db.execute("DELETE FROM Top_Ten")
     top_ten_db.execute("""INSERT INTO Top_Ten VALUES(1, ?)""", (string1,))
     top_ten_db.execute("""INSERT INTO Top_Ten VALUES(2, ?)""", (string2,))
-    top_ten_db.execute("""INSERT INTO Top_Ten VALUES(3, ?)""",(string3,))
+    top_ten_db.execute("""INSERT INTO Top_Ten VALUES(3, ?)""", (string3,))
     top_ten_db.execute("""INSERT INTO Top_Ten VALUES(4, ?)""", (string4,))
     top_ten_db.execute("""INSERT INTO Top_Ten VALUES(5, ?)""", (string5,))
     top_ten_db.execute("""INSERT INTO Top_Ten VALUES(6, ?)""", (string6,))
